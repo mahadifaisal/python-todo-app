@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mahadi's To-Do App</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="app">
+
+            <h1>Mahadi's To-Do App</h1>
+
+
+            <!-- Add Task -->
+
+            <form action="/add"
+                  method="POST"
+                  class="add-form">
+
+                <input
+                    type="text"
+                    name="task"
+                    placeholder="Enter a task"
+                    required
+                >
+
+                <button type="submit"
+                        class="add-btn">
+                    Add Task
+                </button>
+
+            </form>
+
+
+            <!-- Task Counter -->
+
+            <div class="task-counter">
+
+                <span>
+                    Total:
+                    <strong>{{ total }}</strong>
+                </span>
+
+                <span>
+                    Active:
+                    <strong>{{ active }}</strong>
+                </span>
+
+                <span>
+                    Completed:
+                    <strong>{{ completed }}</strong>
+                </span>
+
+            </div>
+
+
+            <!-- Filters -->
+
+            <div class="filters">
+
+                <a href="/?filter=all"
+                   class="{% if current_filter == 'all' %}active-filter{% endif %}">
+                    All
+                </a>
+
+                <a href="/?filter=active"
+                   class="{% if current_filter == 'active' %}active-filter{% endif %}">
+                    Active
+                </a>
+
+                <a href="/?filter=completed"
+                   class="{% if current_filter == 'completed' %}active-filter{% endif %}">
+                    Completed
+                </a>
+
+            </div>
+
+
+            <h2>My Tasks</h2>
+
+
+            <!-- Task List -->
+
+            <ul class="task-list">
+
+                {% for task in tasks %}
+
+                <li class="task">
+
+                    <div class="task-content">
+
+                        {% if task.completed %}
+
+                            <span class="task-title completed">
+                                {{ task.title }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="task-title">
+                                {{ task.title }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="task-actions">
+
+                        <!-- Complete / Undo -->
+
+                        <a href="/complete/{{ task.id }}">
+
+                            {% if task.completed %}
+
+                                <button class="undo-btn">
+                                    Undo
+                                </button>
+
+                            {% else %}
+
+                                <button class="complete-btn">
+                                    Complete
+                                </button>
+
+                            {% endif %}
+
+                        </a>
+
+
+                        <!-- Edit -->
+
+                        <form action="/edit/{{ task.id }}"
+                              method="POST"
+                              class="edit-form">
+
+                            <input
+                                type="text"
+                                name="title"
+                                value="{{ task.title }}"
+                                required
+                            >
+
+                            <button type="submit"
+                                    class="edit-btn">
+                                Edit
+                            </button>
+
+                        </form>
+
+
+                        <!-- Delete -->
+
+                        <a href="/delete/{{ task.id }}"
+   onclick="return confirm('Are you sure you want to delete this task?');">
+
+                            <button class="delete-btn">
+                                Delete
+                            </button>
+
+                        </a>
+
+                    </div>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+            {% if not tasks %}
+
+                <p class="empty-message">
+                    No tasks found.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Build Portfolio",
+        "completed": false,
+        "id": 1
+    },
+    {
+        "title": "Learn Git",
+        "completed": false,
+        "id": 2
+    },
+    {
+        "title": "Learn GitHub",
+        "completed": false,
+        "id": 3
+    },
+    {
+        "title": "Learn Flask",
+        "completed": false,
+        "id": 4
+    }
+]
